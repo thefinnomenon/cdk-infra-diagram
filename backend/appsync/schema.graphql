@@ -1,0 +1,178 @@
+type Room {
+  id: ID!
+  name: String
+  messages(createdAt: ModelStringKeyConditionInput, filter: ModelMessageFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelMessageConnection
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Message {
+  id: ID!
+  content: String!
+  owner: String
+  createdAt: String
+  roomId: ID
+  updatedAt: AWSDateTime!
+}
+
+type Subscription {
+  onCreateMessageByRoomId(roomId: ID): Message @aws_subscribe(mutations: ["createMessage"])
+  onCreateRoom: Room @aws_subscribe(mutations: ["createRoom"])
+  onUpdateRoom: Room @aws_subscribe(mutations: ["updateRoom"])
+  onDeleteRoom: Room @aws_subscribe(mutations: ["deleteRoom"])
+  onCreateMessage: Message @aws_subscribe(mutations: ["createMessage"])
+  onUpdateMessage: Message @aws_subscribe(mutations: ["updateMessage"])
+  onDeleteMessage: Message @aws_subscribe(mutations: ["deleteMessage"])
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelRoomConnection {
+  items: [Room]
+  nextToken: String
+}
+
+input ModelStringFilterInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+}
+
+input ModelIDFilterInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+}
+
+input ModelIntFilterInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelFloatFilterInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+}
+
+input ModelBooleanFilterInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelRoomFilterInput {
+  id: ModelIDFilterInput
+  name: ModelStringFilterInput
+  createdAt: ModelStringFilterInput
+  updatedAt: ModelStringFilterInput
+  and: [ModelRoomFilterInput]
+  or: [ModelRoomFilterInput]
+  not: ModelRoomFilterInput
+}
+
+type Query {
+  getRoom(id: ID!): Room
+  listRooms(filter: ModelRoomFilterInput, limit: Int, nextToken: String): ModelRoomConnection
+  getMessage(id: ID!): Message
+  listMessages(filter: ModelMessageFilterInput, limit: Int, nextToken: String): ModelMessageConnection
+  listMessagesForRoom(roomId: ID, createdAt: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelMessageFilterInput, limit: Int, nextToken: String): ModelMessageConnection
+}
+
+input CreateRoomInput {
+  id: ID
+  name: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input UpdateRoomInput {
+  id: ID!
+  name: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+input DeleteRoomInput {
+  id: ID
+}
+
+type Mutation {
+  createRoom(input: CreateRoomInput!): Room
+  updateRoom(input: UpdateRoomInput!): Room
+  deleteRoom(input: DeleteRoomInput!): Room
+  createMessage(input: CreateMessageInput!): Message
+  updateMessage(input: UpdateMessageInput!): Message
+  deleteMessage(input: DeleteMessageInput!): Message
+}
+
+type ModelMessageConnection {
+  items: [Message]
+  nextToken: String
+}
+
+input ModelMessageFilterInput {
+  id: ModelIDFilterInput
+  content: ModelStringFilterInput
+  owner: ModelStringFilterInput
+  createdAt: ModelStringFilterInput
+  roomId: ModelIDFilterInput
+  and: [ModelMessageFilterInput]
+  or: [ModelMessageFilterInput]
+  not: ModelMessageFilterInput
+}
+
+input CreateMessageInput {
+  id: ID
+  content: String!
+  owner: String
+  createdAt: String
+  roomId: ID
+}
+
+input UpdateMessageInput {
+  id: ID!
+  content: String
+  owner: String
+  createdAt: String
+  roomId: ID
+}
+
+input DeleteMessageInput {
+  id: ID
+}
+
+input ModelStringKeyConditionInput {
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  between: [String]
+  beginsWith: String
+}

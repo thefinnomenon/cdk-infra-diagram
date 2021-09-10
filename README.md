@@ -1,37 +1,35 @@
-![Chat App with React & AWS](header.jpg)
+![Chat App with React & AWS Demo](demo.gif)
 
 ## Real Time Chat with React, GraphQL, and AWS AppSync
 
-This application can be deployed with either AWS Amplify or CDK.
+This application utilizes the CDK and [cdk-appsync-transformer](https://github.com/kcwinner/cdk-appsync-transformer) to combine the CDK 
+and Amplify into a pretty nice backend workflow.
+#### Original Amplify Version
 
-### Deploying with AWS Amplify
+https://github.com/full-stack-serverless/react-chat-app-aws
+
+#### Original CDK Version
+
+https://github.com/full-stack-serverless/cdk-appsync-chat
+
+### Deploying
 
 1. Clone the repo and change into the directory:
 
 ```sh
-git clone https://github.com/full-stack-serverless/react-chat-app-aws.git
-
-cd react-chat-app-aws
+git clone https://github.com/thefinnomenon/amplify-the-cdk.git && cd $_
 ```
 
 2. Install the dependencies:
 
 ```sh
-npm install 
-
-# or
-
-yarn
+npm install
 ```
 
 3. Deploy the back end
 
 ```sh
-amplify init
-
-# walk through steps
-
-amplify push
+npm run backend:deploy
 ```
 
 4. Start the app
@@ -39,7 +37,3 @@ amplify push
 ```sh
 npm start
 ```
-
-### Deploying with CDK
-
-To deploy with CDK, follow the steps [here](https://github.com/full-stack-serverless/cdk-appsync-chat)
